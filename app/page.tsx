@@ -78,11 +78,10 @@ export default function Home() {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="h-[46px] sm:h-[56px] flex">
                 <Link
                   href="https://t.me/therealworldtoken"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  //onClick={() => scrollToSection("tokenomics")}
                   className="bg-transparent border border-[#f7d060] text-[#f7d060] font-semibold px-5 sm:px-8 flex items-center justify-center rounded-md hover:bg-[#f7d060]/10 transition-all duration-300 text-sm sm:text-base h-full"
                 >
-                 Tokenomics
+                  JOIN
                 </Link>
               </motion.div>
             </div>
@@ -564,13 +563,13 @@ export default function Home() {
                           <motion.div
                             className="h-3 sm:h-4 rounded-full animated-gradient-bg"
                             initial={{ width: 0 }}
-                            animate={{ width: "40%" }}
+                            animate={{ width: "65%" }}
                             transition={{ duration: 1.5, delay: 0.7 }}
                           ></motion.div>
                         </div>
                         <div className="flex justify-between text-xs sm:text-sm">
                           <div className="text-gray-400">0 TRW</div>
-                          <div className="gold-gradient-text font-medium">40% Filled</div>
+                          <div className="gold-gradient-text font-medium">65% Filled</div>
                           <div className="text-gray-400">400,000,000 TRW</div>
                         </div>
                       </motion.div>

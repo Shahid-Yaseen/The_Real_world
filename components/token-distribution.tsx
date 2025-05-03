@@ -30,9 +30,9 @@ function DistributionItem({ label, percentage, delay }: DistributionItemProps) {
 export function TokenDistribution() {
   return (
     <div>
-      <DistributionItem label="Presale" percentage={40} delay={0.2} />
-      <DistributionItem label="Liquidity" percentage={40} delay={0.3} />
-      <DistributionItem label="For Matrix" percentage={20} delay={0.4} />
+      <DistributionItem label="$TRW PRESALE" percentage={40} delay={0.2} />
+      <DistributionItem label="LIQUIDITY POOL" percentage={40} delay={0.3} />
+      <DistributionItem label="FOR THE MATRIX" percentage={20} delay={0.4} />
     </div>
   )
 }

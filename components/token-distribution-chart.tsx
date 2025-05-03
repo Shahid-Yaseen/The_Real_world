@@ -10,70 +10,77 @@ const data = [
 ]
 
 export function TokenDistributionChart() {
+  // Determine outerRadius based on screen size
+  const getOuterRadius = () => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth < 640 ? 50 : 80
+    }
+    return 80
+  }
+
+  // Label for larger screens (no wrapping)
+  const largeScreenLabel = ({ name, percent }) => {
+    return `${name}: ${(percent * 100).toFixed(0)}%`;
+  };
+
+  // Custom label for small screens (with wrapping)
+  const renderSmallScreenLabel = ({ name, percent, cx, cy, midAngle, innerRadius, outerRadius, index }) => {
+    const RADIAN = Math.PI / 180;
+    const radius = outerRadius + 30; // Increased distance for better positioning
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    // Adjust "Presale" label position to avoid overlap
+    const adjustedY = name === "Presale" ? y - 10 : y; // Shift Presale label up slightly
+
+    return (
+      <text
+        x={x}
+        y={adjustedY}
+        fill="#fff"
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+        fontSize="12px" // Matches legend text-xs
+        fontWeight="500"
+      >
+        <tspan x={x} dy="0">{name}</tspan>
+        <tspan x={x} dy="1.2em">{`${(percent * 100).toFixed(0)}%`}</tspan>
+      </text>
+    );
+  };
+
+  // Determine which label to use based on screen size
+  const getLabel = () => {
+    if (typeof window !== "undefined" && window.innerWidth < 640) {
+      return renderSmallScreenLabel;
+    }
+    return largeScreenLabel;
+  };
+
   return (
     <motion.div
-      className="w-full h-[350px] sm:h-[400px] md:h-[450px] lg:h-[500px] xl:h-[550px] max-h-[70vh] px-4 sm:px-6"
+      className="w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] xl:h-[500px] max-h-[80vh] px-2 sm:px-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
       <ResponsiveContainer width="100%" height="100%">
-        <PieChart margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
+        <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
-            labelLine={false}
-            outerRadius="85%"
+            labelLine={true}
+            labelLineLength={typeof window !== "undefined" && window.innerWidth < 640 ? 20 : 15}
+            outerRadius={getOuterRadius()}
             fill="#8884d8"
             dataKey="value"
-            label={({ name, percent, cx, cy, midAngle, outerRadius, index }) => {
-              const RADIAN = Math.PI / 180
-              const radius = outerRadius * 0.65
-
-              // Calculate label position inside the slice
-              // Adjust position for Liquidity label specifically
-              let labelX = cx + radius * Math.cos(-midAngle * RADIAN)
-              let labelY = cy + radius * Math.sin(-midAngle * RADIAN)
-
-              // Push the Liquidity label 2px inward
-              if (name === "Liquidity") {
-                // Calculate the direction vector (normalized)
-                const dx = Math.cos(-midAngle * RADIAN)
-                const dy = Math.sin(-midAngle * RADIAN)
-                // Move 2px inward along this vector
-                labelX = labelX - dx * 2
-                labelY = labelY - dy * 2
-              }
-
-              // Split "For Matrix" label into two lines for better fit
-              const displayName =
-                name === "For Matrix"
-                  ? ["For Matrix", `${(percent * 100).toFixed(0)}%`]
-                  : [`${name}: ${(percent * 100).toFixed(0)}%`]
-
-              return (
-                <g>
-                  <text
-                    x={labelX}
-                    y={labelY}
-                    fill="#000" // Explicitly set to white as requested
-                    textAnchor="middle"
-                    dominantBaseline="central"
-                    fontSize="clamp(12px, 1.4vw, 16px)"
-                    fontWeight="bold"
-                    stroke="#000" // Black stroke for contrast
-                    strokeWidth={0.5}
-                  >
-                    {displayName.map((line, i) => (
-                      <tspan x={labelX} dy={i === 0 ? "-0.5em" : "1em"} key={i}>
-                        {line}
-                      </tspan>
-                    ))}
-                  </text>
-                </g>
-              )
-            }}
+            label={getLabel()}
+            labelStyle={
+              typeof window !== "undefined" && window.innerWidth >= 640
+                ? { fontSize: "14px", fill: "#fff", fontWeight: "500" }
+                : undefined
+            }
             isAnimationActive={true}
           >
             {data.map((entry, index) => (
@@ -97,8 +104,8 @@ export function TokenDistributionChart() {
             layout="horizontal"
             verticalAlign="bottom"
             align="center"
-            formatter={(value) => <span className="text-gray-300">{value}</span>}
-            wrapperStyle={{ color: "white", paddingTop: "20px", fontSize: "clamp(10px, 1.5vw, 14px)" }}
+            formatter={(value) => <span className="text-gray-300 text-xs sm:text-sm">{value}</span>}
+            wrapperStyle={{ color: "white", paddingTop: "10px" }}
           />
         </PieChart>
       </ResponsiveContainer>
