@@ -24,7 +24,25 @@ export function PaymentModal({ isOpen, onClose, ethAmount, tokenAmount }: Paymen
 
   const orderId = "#" + Math.floor(Math.random() * 10000000000).toString()
 
+  // Calculate token values consistently
+  const baseTokens = Number(tokenAmount.replace(/,/g, ""))
+  const bonusTokens = Math.floor(baseTokens * 0.1)
+  const totalTokens = baseTokens
+
   const handleSentPayment = () => {
+    // Store payment details for the waiting page
+    sessionStorage.setItem(
+      "paymentConfirmation",
+      JSON.stringify({
+        solAmount: ethAmount,
+        baseTokenAmount: baseTokens.toLocaleString(),
+        bonusTokenAmount: bonusTokens.toLocaleString(),
+        totalTokenAmount: totalTokens.toLocaleString(),
+        walletAddress,
+        orderId,
+      }),
+    )
+
     setShowWaitingScreen(true)
   }
 
@@ -35,8 +53,10 @@ export function PaymentModal({ isOpen, onClose, ethAmount, tokenAmount }: Paymen
       <WaitingForPayment
         isOpen={showWaitingScreen}
         onClose={onClose}
-        ethAmount={ethAmount}
-        tokenAmount={tokenAmount}
+        solAmount={ethAmount}
+        baseTokenAmount={baseTokens.toLocaleString()}
+        bonusTokenAmount={bonusTokens.toLocaleString()}
+        totalTokenAmount={totalTokens.toLocaleString()}
         walletAddress={walletAddress}
         orderId={orderId}
       />
@@ -83,7 +103,7 @@ export function PaymentModal({ isOpen, onClose, ethAmount, tokenAmount }: Paymen
               <button
                 className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 ${
                   activeTab === "qr"
-                    ? "bg-[#f0b90b]/10 text-[#f0b9কিন্তb90b] border-b-2 border-[#f0b90b]"
+                    ? "bg-[#f0b90b]/10 text-[#f0b90b] border-b-2 border-[#f0b90b]"
                     : "text-gray-400 hover:text-white"
                 }`}
                 onClick={() => setActiveTab("qr")}
@@ -134,7 +154,7 @@ export function PaymentModal({ isOpen, onClose, ethAmount, tokenAmount }: Paymen
                         </div>
                         <div className="flex-1">
                           <div className="text-xl font-mono text-white">{ethAmount}</div>
-                          <div className="text-xs text-gray-400">ETH</div>
+                          <div className="text-xs text-gray-400">SOL</div>
                         </div>
                         <CopyButton text={ethAmount} />
                       </div>
@@ -157,6 +177,22 @@ export function PaymentModal({ isOpen, onClose, ethAmount, tokenAmount }: Paymen
                   </div>
 
                   <div className="bg-[#0a0a0a] border border-[#f0b90b]/20 rounded-md p-5">
+                    <h4 className="text-white font-medium mb-3">Payment Summary</h4>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Base Coins:</span>
+                        <span className="text-white">{baseTokens.toLocaleString()} $TRW</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Bonus Coins:</span>
+                        <span className="text-[#f0b90b]">+{bonusTokens.toLocaleString()} $TRW</span>
+                      </div>
+                      <div className="flex justify-between border-t border-[#f0b90b]/10 pt-2">
+                        <span className="text-white font-semibold">Total Coins:</span>
+                        <span className="text-white font-semibold">{totalTokens.toLocaleString()} $TRW</span>
+                      </div>
+                    </div>
+
                     <h4 className="text-white font-medium mb-3">Payment Steps</h4>
                     <div className="space-y-4">
                       <div className="flex">
@@ -189,13 +225,31 @@ export function PaymentModal({ isOpen, onClose, ethAmount, tokenAmount }: Paymen
               ) : (
                 <div className="flex flex-col items-center justify-center py-4 space-y-6">
                   <div className="bg-white p-4 rounded-lg">
-                    <QRCode value={`ethereum:${walletAddress}?amount=${ethAmount}`} size={200} level="H" />
+                    <QRCode value={`solana:${walletAddress}?amount=${ethAmount}`} size={200} level="H" />
                   </div>
                   <div className="text-center">
                     <p className="text-gray-300 mb-2">Scan with your wallet app</p>
                     <p className="text-sm text-gray-400">
-                      Send exactly <span className="text-[#f0b90b] font-semibold">{ethAmount} ETH</span>
+                      Send exactly <span className="text-[#f0b90b] font-semibold">{ethAmount} SOL</span>
                     </p>
+                  </div>
+
+                  <div className="bg-[#0a0a0a] border border-[#f0b90b]/20 rounded-md p-4 w-full">
+                    <h4 className="text-white font-medium mb-3 text-center">Payment Summary</h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Base Coins:</span>
+                        <span className="text-white">{baseTokens.toLocaleString()} $TRW</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Bonus Coins:</span>
+                        <span className="text-[#f0b90b]">+{bonusTokens.toLocaleString()} $TRW</span>
+                      </div>
+                      <div className="flex justify-between border-t border-[#f0b90b]/10 pt-2">
+                        <span className="text-white font-semibold">Total Coins:</span>
+                        <span className="text-white font-semibold">{totalTokens.toLocaleString()} $TRW</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}

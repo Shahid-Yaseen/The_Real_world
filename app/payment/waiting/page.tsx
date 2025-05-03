@@ -11,13 +11,17 @@ export default function WaitingForPaymentPage() {
   const [timeRemaining, setTimeRemaining] = useState(3600) // 1 hour in seconds
   const [isProcessing, setIsProcessing] = useState(true)
   const [paymentDetails, setPaymentDetails] = useState<{
-    ethAmount: string
-    tokenAmount: string
+    solAmount: string
+    baseTokenAmount: string
+    bonusTokenAmount: string
+    totalTokenAmount: string
     walletAddress: string
     orderId: string
   }>({
-    ethAmount: "0.1",
-    tokenAmount: "220000",
+    solAmount: "0.1",
+    baseTokenAmount: "5,000",
+    bonusTokenAmount: "500",
+    totalTokenAmount: "5,500",
     walletAddress: "0x0000000000000000000000000000000000000000",
     orderId: "#0000000",
   })
@@ -26,7 +30,19 @@ export default function WaitingForPaymentPage() {
     // Retrieve payment details from sessionStorage
     const storedDetails = sessionStorage.getItem("paymentConfirmation")
     if (storedDetails) {
-      setPaymentDetails(JSON.parse(storedDetails))
+      try {
+        const details = JSON.parse(storedDetails)
+        setPaymentDetails({
+          solAmount: details.solAmount || "0.1",
+          baseTokenAmount: details.baseTokenAmount || "5,000",
+          bonusTokenAmount: details.bonusTokenAmount || "500",
+          totalTokenAmount: details.totalTokenAmount || "5,500",
+          walletAddress: details.walletAddress || "0x0000000000000000000000000000000000000000",
+          orderId: details.orderId || "#0000000",
+        })
+      } catch (e) {
+        console.error("Error parsing payment details:", e)
+      }
     }
 
     const timer = setInterval(() => {
@@ -166,21 +182,19 @@ export default function WaitingForPaymentPage() {
         <div className="w-full bg-[#0a0a0a] border border-[#f0b90b]/20 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
           <div className="grid grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
             <div className="text-gray-400">Amount:</div>
-            <div className="text-right text-white font-mono">{paymentDetails.ethAmount} ETH</div>
+            <div className="text-right text-white font-mono">{paymentDetails.solAmount} SOL</div>
 
             <div className="text-gray-400">Address:</div>
             <div className="text-right text-[#f0b90b] font-mono text-xs truncate">{paymentDetails.walletAddress}</div>
 
             <div className="text-gray-400">Coins:</div>
-            <div className="text-right text-white">{paymentDetails.tokenAmount.split(".")[0]} $TRW</div>
+            <div className="text-right text-white">{paymentDetails.baseTokenAmount} $TRW</div>
 
             <div className="text-gray-400">Bonus Coins:</div>
-            <div className="text-right text-[#f0b90b]">
-              +{Math.floor(Number.parseInt(paymentDetails.tokenAmount.replace(/,/g, "")) * 0.1).toLocaleString()} $TRW
-            </div>
+            <div className="text-right text-[#f0b90b]">+{paymentDetails.bonusTokenAmount} $TRW</div>
 
             <div className="text-gray-400">Total Coins:</div>
-            <div className="text-right text-white">{paymentDetails.tokenAmount} $TRW</div>
+            <div className="text-right text-white">{paymentDetails.totalTokenAmount} $TRW</div>
           </div>
         </div>
 

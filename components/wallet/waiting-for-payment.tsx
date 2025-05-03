@@ -7,8 +7,12 @@ import Link from "next/link"
 interface WaitingForPaymentProps {
   isOpen: boolean
   onClose: () => void
-  ethAmount: string
-  tokenAmount: string
+  ethAmount?: string
+  tokenAmount?: string
+  solAmount?: string
+  baseTokenAmount?: string
+  bonusTokenAmount?: string
+  totalTokenAmount?: string
   walletAddress: string
   orderId: string
 }
@@ -18,13 +22,48 @@ export function WaitingForPayment({
   onClose,
   ethAmount,
   tokenAmount,
+  solAmount,
+  baseTokenAmount,
+  bonusTokenAmount,
+  totalTokenAmount,
   walletAddress,
   orderId,
 }: WaitingForPaymentProps) {
   const [timeRemaining, setTimeRemaining] = useState(3600) // 1 hour in seconds
   const [isProcessing, setIsProcessing] = useState(true)
+  const [paymentData, setPaymentData] = useState({
+    solAmount: solAmount || ethAmount || "0.1",
+    baseTokenAmount: baseTokenAmount || "0",
+    bonusTokenAmount: bonusTokenAmount || "0",
+    totalTokenAmount: totalTokenAmount || tokenAmount || "0",
+    walletAddress,
+    orderId,
+  })
 
   useEffect(() => {
+    // If we don't have all the token amounts but have tokenAmount, calculate them
+    if (tokenAmount && (!baseTokenAmount || !bonusTokenAmount || !totalTokenAmount)) {
+      try {
+        const baseAmount = Number(tokenAmount.replace(/,/g, ""))
+        const bonusAmount = Math.floor(baseAmount * 0.1)
+        const totalAmount = baseAmount + bonusAmount
+
+        setPaymentData({
+          solAmount: solAmount || ethAmount || "0.1",
+          baseTokenAmount: baseAmount.toLocaleString(),
+          bonusTokenAmount: bonusAmount.toLocaleString(),
+          totalTokenAmount: totalAmount.toLocaleString(),
+          walletAddress,
+          orderId,
+        })
+      } catch (e) {
+        console.error("Error calculating token amounts:", e)
+      }
+    }
+
+    // Store payment details in sessionStorage for persistence
+    sessionStorage.setItem("paymentConfirmation", JSON.stringify(paymentData))
+
     const timer = setInterval(() => {
       setTimeRemaining((prev) => {
         if (prev <= 1) {
@@ -44,7 +83,7 @@ export function WaitingForPayment({
       clearInterval(timer)
       clearTimeout(processingTimer)
     }
-  }, [])
+  }, [tokenAmount, baseTokenAmount, bonusTokenAmount, totalTokenAmount, solAmount, ethAmount, walletAddress, orderId])
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60)
@@ -115,7 +154,7 @@ export function WaitingForPayment({
           </h2>
 
           <p className="text-gray-400 text-center mb-6">
-            Order {orderId} {isProcessing ? "is being processed.." : "has been confirmed!"}
+            Order {paymentData.orderId} {isProcessing ? "is being processed.." : "has been confirmed!"}
           </p>
 
           {isProcessing ? (
@@ -135,21 +174,19 @@ export function WaitingForPayment({
           <div className="w-full bg-[#0a0a0a] border border-[#f0b90b]/20 rounded-lg p-6 mb-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="text-gray-400">Amount:</div>
-              <div className="text-right text-white font-mono">{ethAmount} ETH</div>
+              <div className="text-right text-white font-mono">{paymentData.solAmount} SOL</div>
 
               <div className="text-gray-400">Address:</div>
-              <div className="text-right text-[#f0b90b] font-mono text-xs truncate">{walletAddress}</div>
+              <div className="text-right text-[#f0b90b] font-mono text-xs truncate">{paymentData.walletAddress}</div>
 
               <div className="text-gray-400">Coins:</div>
-              <div className="text-right text-white">{tokenAmount.split(".")[0]} $TRW</div>
+              <div className="text-right text-white">{paymentData.baseTokenAmount} $TRW</div>
 
               <div className="text-gray-400">Bonus Coins:</div>
-              <div className="text-right text-[#f0b90b]">
-                +{Math.floor(Number.parseInt(tokenAmount.replace(/,/g, "")) * 0.1).toLocaleString()} $TRW
-              </div>
+              <div className="text-right text-[#f0b90b]">+{paymentData.bonusTokenAmount} $TRW</div>
 
               <div className="text-gray-400">Total Coins:</div>
-              <div className="text-right text-white">{tokenAmount} $TRW</div>
+              <div className="text-right text-white">{paymentData.totalTokenAmount} $TRW</div>
             </div>
           </div>
 

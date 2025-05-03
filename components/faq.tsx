@@ -61,7 +61,7 @@ export function Faq() {
     {
       question: "What is THE REAL WORLD token?",
       answer:
-        "THE REAL WORLD token ($TRW) is a cryptocurrency designed to provide holders with access to exclusive financial education, community resources, and wealth-building opportunities. It serves as the utility token for The Real World ecosystem.",
+        "THE REAL WORLD token ($TRW) is a cryptocurrency designed to provide holders with access to exclusive financial education, community resources, and wealth-building opportunities. With a rate of 50,000 $TRW per SOL during presale, it serves as the utility token for The Real World ecosystem.",
     },
     {
       question: "How do I participate in the presale?",

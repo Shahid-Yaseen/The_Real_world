@@ -15,12 +15,12 @@ interface CheckoutModalProps {
 export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const [showPaymentModal, setShowPaymentModal] = useState(false)
   const [amount, setAmount] = useState("0.1")
-  const [tokenAmount, setTokenAmount] = useState("200000")
+  const [tokenAmount, setTokenAmount] = useState("5000")
 
-  // Calculate token amount based on ETH input (1 ETH = 2,000,000 TRW)
-  const calculateTokens = (ethAmount: string) => {
-    if (!ethAmount || isNaN(Number(ethAmount))) return "0"
-    const tokens = Number(ethAmount) * 2000000
+  // Calculate token amount based on SOL input (1 SOL = 50,000 TRW)
+  const calculateTokens = (solAmount: string) => {
+    if (!solAmount || isNaN(Number(solAmount))) return "0"
+    const tokens = Number(solAmount) * 50000
     return tokens.toLocaleString("en-US", { maximumFractionDigits: 0 })
   }
 
@@ -31,6 +31,23 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   }
 
   const handleProceedToPayment = () => {
+    // Store payment details for the payment modal
+    const baseTokens = Number(tokenAmount.replace(/,/g, ""))
+    const bonusTokens = Math.floor(baseTokens * 0.1)
+    const totalTokens = baseTokens + bonusTokens
+
+    // Store payment details in sessionStorage to pass to the next page
+    sessionStorage.setItem(
+      "paymentDetails",
+      JSON.stringify({
+        solAmount: amount,
+        baseTokenAmount: baseTokens.toLocaleString(),
+        bonusTokenAmount: bonusTokens.toLocaleString(),
+        totalTokenAmount: totalTokens.toLocaleString(),
+        rate: "50,000",
+      }),
+    )
+
     setShowPaymentModal(true)
   }
 
@@ -93,13 +110,13 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       <div className="flex justify-between">
                         <span className="text-gray-400">Bonus</span>
                         <span className="text-[#f0b90b]">
-                          +{Math.floor(Number(tokenAmount) * 0.1).toLocaleString()} $TRW
+                          +{Math.floor(Number(tokenAmount.replace(/,/g, "")) * 0.1).toLocaleString()} $TRW
                         </span>
                       </div>
                       <div className="flex justify-between border-t border-[#f0b90b]/10 pt-3">
                         <span className="text-white font-semibold">Total Coins</span>
                         <span className="text-white font-semibold">
-                          {Math.floor(Number(tokenAmount) * 1.1).toLocaleString()}
+                          {Math.floor(Number(tokenAmount.replace(/,/g, "")) * 1.1).toLocaleString()} $TRW
                         </span>
                       </div>
                     </div>
@@ -110,22 +127,22 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
 
                     <div className="space-y-4">
                       <div>
-                        <label htmlFor="eth-amount" className="block text-sm text-gray-400 mb-2">
-                          Amount in ETH
+                        <label htmlFor="sol-amount" className="block text-sm text-gray-400 mb-2">
+                          Amount in SOL
                         </label>
                         <div className="relative">
                           <input
-                            id="eth-amount"
+                            id="sol-amount"
                             type="text"
                             value={amount}
                             onChange={handleAmountChange}
                             className="w-full bg-[#111] border border-[#f0b90b]/30 rounded-md p-3 pr-16 text-right text-white focus:outline-none focus:ring-1 focus:ring-[#f0b90b] focus:border-[#f0b90b]"
                           />
-                          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#f0b90b]">ETH</div>
+                          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#f0b90b]">SOL</div>
                         </div>
                       </div>
 
-                      <div className="text-sm text-gray-400">Rate: 1 ETH = 2,000,000 $TRW</div>
+                      <div className="text-sm text-gray-400">Rate: 1 SOL = 50,000 $TRW</div>
 
                       <div className="bg-[#111] p-4 rounded-md border border-[#f0b90b]/20 flex items-start">
                         <div className="text-[#f0b90b] mr-3 mt-1">
@@ -175,7 +192,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                     <p className="text-gray-400">Current stage offers 10% bonus coins on all purchases</p>
                   </div>
 
-                  <div className="bg-[#0a0a0a] rounded-lg p-6 border border-[#f0b9কিন্ত0b]/10">
+                  <div className="bg-[#0a0a0a] rounded-lg p-6 border border-[#f0b90b]/10">
                     <div className="flex items-center mb-3">
                       <div className="w-10 h-10 bg-[#111] rounded-full flex items-center justify-center mr-3 border border-[#f0b90b]/30">
                         <ShoppingCart size={20} className="text-[#f0b90b]" />
@@ -227,7 +244,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
             onClose()
           }}
           ethAmount={amount}
-          tokenAmount={Math.floor(Number(tokenAmount) * 1.1).toLocaleString()}
+          tokenAmount={tokenAmount}
         />
       )}
     </>

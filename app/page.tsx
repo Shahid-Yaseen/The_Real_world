@@ -584,7 +584,7 @@ export default function Home() {
                       >
                         <span className="text-sm sm:text-base text-gray-300">Presale Price:</span>
                         <span className="font-semibold gold-gradient-text text-sm sm:text-base">
-                          1 SOL = 2,000,000 TRW
+                          1 SOL = 50,000 TRW
                         </span>
                       </motion.div>
                       <motion.div
@@ -595,7 +595,7 @@ export default function Home() {
                       >
                         <span className="text-sm sm:text-base text-gray-300">Listing Price:</span>
                         <span className="font-semibold gold-gradient-text text-sm sm:text-base">
-                          1 SOL = 1,500,000 TRW
+                          1 SOL = 37,500 TRW
                         </span>
                       </motion.div>
                       <motion.div

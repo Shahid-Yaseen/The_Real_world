@@ -11,12 +11,12 @@ import Link from "next/link"
 export default function CheckoutPage() {
   const router = useRouter()
   const [amount, setAmount] = useState("0.1")
-  const [tokenAmount, setTokenAmount] = useState("200000")
+  const [tokenAmount, setTokenAmount] = useState("5000")
 
-  // Calculate token amount based on ETH input (1 ETH = 2,000,000 TRW)
-  const calculateTokens = (ethAmount: string) => {
-    if (!ethAmount || isNaN(Number(ethAmount))) return "0"
-    const tokens = Number(ethAmount) * 2000000
+  // Calculate token amount based on SOL input (1 SOL = 50,000 TRW)
+  const calculateTokens = (solAmount: string) => {
+    if (!solAmount || isNaN(Number(solAmount))) return "0"
+    const tokens = Number(solAmount) * 50000
     return tokens.toLocaleString("en-US", { maximumFractionDigits: 0 })
   }
 
@@ -27,12 +27,20 @@ export default function CheckoutPage() {
   }
 
   const handleProceedToPayment = () => {
+    // Parse the token amount without commas for consistent calculations
+    const baseTokens = Number(tokenAmount.replace(/,/g, ""))
+    const bonusTokens = Math.floor(baseTokens * 0.1)
+    const totalTokens = baseTokens + bonusTokens
+
     // Store payment details in sessionStorage to pass to the next page
     sessionStorage.setItem(
       "paymentDetails",
       JSON.stringify({
-        ethAmount: amount,
-        tokenAmount: Math.floor(Number(tokenAmount) * 1.1).toLocaleString(),
+        solAmount: amount,
+        baseTokenAmount: baseTokens.toLocaleString(),
+        bonusTokenAmount: bonusTokens.toLocaleString(),
+        totalTokenAmount: totalTokens.toLocaleString(),
+        rate: "50,000",
       }),
     )
 
@@ -82,12 +90,14 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between text-sm sm:text-base">
                   <span className="text-gray-400">Bonus</span>
-                  <span className="text-[#f0b90b]">+{Math.floor(Number(tokenAmount) * 0.1).toLocaleString()} $TRW</span>
+                  <span className="text-[#f0b90b]">
+                    +{Math.floor(Number(tokenAmount.replace(/,/g, "")) * 0.1).toLocaleString()} $TRW
+                  </span>
                 </div>
                 <div className="flex justify-between border-t border-[#f0b90b]/10 pt-2 sm:pt-3 text-sm sm:text-base">
                   <span className="text-white font-semibold">Total Coins</span>
                   <span className="text-white font-semibold">
-                    {Math.floor(Number(tokenAmount) * 1.1).toLocaleString()}
+                    {Math.floor(Number(tokenAmount.replace(/,/g, "")) * 1.1).toLocaleString()} $TRW
                   </span>
                 </div>
               </div>
@@ -98,24 +108,24 @@ export default function CheckoutPage() {
 
               <div className="space-y-3 sm:space-y-4">
                 <div>
-                  <label htmlFor="eth-amount" className="block text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2">
-                    Amount in ETH
+                  <label htmlFor="sol-amount" className="block text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2">
+                    Amount in SOL
                   </label>
                   <div className="relative">
                     <input
-                      id="eth-amount"
+                      id="sol-amount"
                       type="text"
                       value={amount}
                       onChange={handleAmountChange}
                       className="w-full bg-[#111] border border-[#f0b90b]/30 rounded-md p-2 sm:p-3 pr-12 sm:pr-16 text-right text-white focus:outline-none focus:ring-1 focus:ring-[#f0b90b] focus:border-[#f0b90b] text-sm sm:text-base"
                     />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#f0b9কিন্ত0b] text-sm sm:text-base">
-                      ETH
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#f0b90b] text-sm sm:text-base">
+                      SOL
                     </div>
                   </div>
                 </div>
 
-                <div className="text-xs sm:text-sm text-gray-400">Rate: 1 ETH = 2,000,000 $TRW</div>
+                <div className="text-xs sm:text-sm text-gray-400">Rate: 1 SOL = 50,000 $TRW</div>
 
                 <div className="bg-[#111] p-3 sm:p-4 rounded-md border border-[#f0b90b]/20 flex items-start">
                   <div className="text-[#f0b90b] mr-2 sm:mr-3 mt-1">

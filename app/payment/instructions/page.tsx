@@ -11,9 +11,18 @@ import { CopyButton } from "@/components/wallet/copy-button"
 export default function PaymentInstructionsPage() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState<"wallet" | "qr">("wallet")
-  const [paymentDetails, setPaymentDetails] = useState<{ ethAmount: string; tokenAmount: string }>({
-    ethAmount: "0.1",
-    tokenAmount: "220000",
+  const [paymentDetails, setPaymentDetails] = useState<{
+    solAmount: string
+    baseTokenAmount: string
+    bonusTokenAmount: string
+    totalTokenAmount: string
+    rate: string
+  }>({
+    solAmount: "0.1",
+    baseTokenAmount: "220000",
+    bonusTokenAmount: "0",
+    totalTokenAmount: "0",
+    rate: "0",
   })
 
   // Generate a random wallet address and order ID
@@ -26,7 +35,14 @@ export default function PaymentInstructionsPage() {
     // Retrieve payment details from sessionStorage
     const storedDetails = sessionStorage.getItem("paymentDetails")
     if (storedDetails) {
-      setPaymentDetails(JSON.parse(storedDetails))
+      const details = JSON.parse(storedDetails)
+      setPaymentDetails({
+        solAmount: details.solAmount || "0.1",
+        baseTokenAmount: details.baseTokenAmount || "5,000",
+        bonusTokenAmount: details.bonusTokenAmount || "500",
+        totalTokenAmount: details.totalTokenAmount || "5,500",
+        rate: details.rate || "50,000",
+      })
     }
   }, [])
 
@@ -35,8 +51,10 @@ export default function PaymentInstructionsPage() {
     sessionStorage.setItem(
       "paymentConfirmation",
       JSON.stringify({
-        ethAmount: paymentDetails.ethAmount,
-        tokenAmount: paymentDetails.tokenAmount,
+        solAmount: paymentDetails.solAmount,
+        baseTokenAmount: paymentDetails.baseTokenAmount,
+        bonusTokenAmount: paymentDetails.bonusTokenAmount,
+        totalTokenAmount: paymentDetails.totalTokenAmount,
         walletAddress,
         orderId,
       }),
@@ -147,10 +165,10 @@ export default function PaymentInstructionsPage() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <div className="text-base sm:text-xl font-mono text-white">{paymentDetails.ethAmount}</div>
-                    <div className="text-xs text-gray-400">ETH</div>
+                    <div className="text-base sm:text-xl font-mono text-white">{paymentDetails.solAmount}</div>
+                    <div className="text-xs text-gray-400">SOL</div>
                   </div>
-                  <CopyButton text={paymentDetails.ethAmount} />
+                  <CopyButton text={paymentDetails.solAmount} />
                 </div>
               </div>
             </div>
@@ -180,7 +198,7 @@ export default function PaymentInstructionsPage() {
                   <p className="text-gray-300 text-xs sm:text-sm">Copy the address and amount above</p>
                 </div>
                 <div className="flex">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f0b9কিন্তonb]/20 text-[#f0b90b] flex items-center justify-center text-xs mr-2 sm:mr-3 flex-shrink-0">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f0b90b]/20 text-[#f0b90b] flex items-center justify-center text-xs mr-2 sm:mr-3 flex-shrink-0">
                     2
                   </div>
                   <p className="text-gray-300 text-xs sm:text-sm">Send payment from your wallet or exchange</p>
@@ -204,7 +222,7 @@ export default function PaymentInstructionsPage() {
           <div className="flex flex-col items-center justify-center py-6 sm:py-8 space-y-4 sm:space-y-6 max-w-2xl mx-auto">
             <div className="bg-white p-3 sm:p-4 rounded-lg">
               <QRCode
-                value={`ethereum:${walletAddress}?amount=${paymentDetails.ethAmount}`}
+                value={`solana:${walletAddress}?amount=${paymentDetails.solAmount}`}
                 size={180}
                 className="sm:w-[240px] sm:h-[240px]"
                 level="H"
@@ -213,7 +231,7 @@ export default function PaymentInstructionsPage() {
             <div className="text-center">
               <p className="text-gray-300 mb-2 text-sm sm:text-base">Scan with your wallet app</p>
               <p className="text-xs sm:text-sm text-gray-400">
-                Send exactly <span className="text-[#f0b90b] font-semibold">{paymentDetails.ethAmount} ETH</span>
+                Send exactly <span className="text-[#f0b90b] font-semibold">{paymentDetails.solAmount} SOL</span>
               </p>
             </div>
           </div>
