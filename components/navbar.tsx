@@ -158,7 +158,7 @@ export function Navbar() {
 
         <div className="flex items-center space-x-4">
           <motion.a
-            href="https://t.me/therealworldtoken"
+            href="https://t.me/therealworldsol"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden md:flex items-center justify-center px-4 py-2 rounded-md bg-[#111] border border-[#f0b90b]/30 hover:bg-[#f0b90b]/10 transition-colors text-[#f0b90b] gap-2"
