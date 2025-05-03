@@ -563,13 +563,13 @@ export default function Home() {
                           <motion.div
                             className="h-3 sm:h-4 rounded-full animated-gradient-bg"
                             initial={{ width: 0 }}
-                            animate={{ width: "65%" }}
+                            animate={{ width: "40%" }}
                             transition={{ duration: 1.5, delay: 0.7 }}
                           ></motion.div>
                         </div>
                         <div className="flex justify-between text-xs sm:text-sm">
                           <div className="text-gray-400">0 TRW</div>
-                          <div className="gold-gradient-text font-medium">65% Filled</div>
+                          <div className="gold-gradient-text font-medium">40% Filled</div>
                           <div className="text-gray-400">400,000,000 TRW</div>
                         </div>
                       </motion.div>
