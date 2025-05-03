@@ -6,12 +6,16 @@ import { Wallet } from "lucide-react"
 
 interface WalletConnectButtonProps {
   className?: string
+  onClick?: () => void
 }
 
-export function WalletConnectButton({ className = "" }: WalletConnectButtonProps) {
+export function WalletConnectButton({ className = "", onClick }: WalletConnectButtonProps) {
   const router = useRouter()
 
   const handleConnect = () => {
+    if (onClick) {
+      onClick()
+    }
     router.push("/payment/checkout")
   }
 

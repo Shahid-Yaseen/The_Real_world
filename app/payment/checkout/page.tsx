@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Rocket, Star, ShoppingCart, Clock, ArrowLeft } from "lucide-react"
@@ -12,6 +12,20 @@ export default function CheckoutPage() {
   const router = useRouter()
   const [amount, setAmount] = useState("0.1")
   const [tokenAmount, setTokenAmount] = useState("5000")
+
+  useEffect(() => {
+    // Load payment details from sessionStorage if available
+    const storedDetails = sessionStorage.getItem("paymentDetails")
+    if (storedDetails) {
+      try {
+        const details = JSON.parse(storedDetails)
+        if (details.solAmount) setAmount(details.solAmount)
+        if (details.baseTokenAmount) setTokenAmount(details.baseTokenAmount)
+      } catch (e) {
+        console.error("Error parsing payment details:", e)
+      }
+    }
+  }, [])
 
   // Calculate token amount based on SOL input (1 SOL = 50,000 TRW)
   const calculateTokens = (solAmount: string) => {

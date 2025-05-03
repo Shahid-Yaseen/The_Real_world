@@ -634,9 +634,19 @@ export default function Home() {
                           <motion.input
                             type="text"
                             placeholder="0.0"
+                            id="homepage-sol-amount"
+                            defaultValue="0.1"
                             className="w-full bg-[#0A0A0A] border border-gray-800 rounded-md p-3 sm:p-4 pr-12 sm:pr-16 text-right focus:border-[#f0b90b] focus:outline-none focus:ring-1 focus:ring-[#f0b90b] transition-all duration-300 text-sm sm:text-base"
                             whileFocus={{ borderColor: "#f0b90b" }}
                             transition={{ duration: 0.2 }}
+                            onChange={(e) => {
+                              const solAmount = e.target.value
+                              const trwAmount = document.getElementById("homepage-trw-amount")
+                              if (trwAmount && !isNaN(Number(solAmount))) {
+                                const tokens = Number(solAmount) * 50000
+                                trwAmount.value = tokens.toLocaleString("en-US", { maximumFractionDigits: 0 })
+                              }
+                            }}
                           />
                           <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-[#f0b90b] text-sm sm:text-base">
                             SOL
@@ -653,9 +663,10 @@ export default function Home() {
                         <div className="relative">
                           <input
                             type="text"
-                            placeholder="0"
-                            className="w-full bg-[#0A0A0A] border border-gray-800 rounded-md p-3 sm:p-4 pr-12 sm:pr-16 text-right text-sm sm:text-base"
+                            id="homepage-trw-amount"
+                            defaultValue="5,000"
                             readOnly
+                            className="w-full bg-[#0A0A0A] border border-gray-800 rounded-md p-3 sm:p-4 pr-12 sm:pr-16 text-right text-sm sm:text-base"
                           />
                           <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-[#f0b90b] text-sm sm:text-base">
                             TRW
@@ -663,7 +674,30 @@ export default function Home() {
                         </div>
                       </motion.div>
 
-                      <WalletConnectButton className="w-full py-3 sm:py-4 text-center" />
+                      <WalletConnectButton
+                        className="w-full py-3 sm:py-4 text-center"
+                        onClick={() => {
+                          const solAmount = document.getElementById("homepage-sol-amount")?.value || "0.1"
+                          const trwAmount = document.getElementById("homepage-trw-amount")?.value || "5,000"
+
+                          // Calculate token values
+                          const baseTokens = Number(trwAmount.replace(/,/g, ""))
+                          const bonusTokens = Math.floor(baseTokens * 0.1)
+                          const totalTokens = baseTokens + bonusTokens
+
+                          // Store payment details in sessionStorage
+                          sessionStorage.setItem(
+                            "paymentDetails",
+                            JSON.stringify({
+                              solAmount: solAmount,
+                              baseTokenAmount: baseTokens.toLocaleString(),
+                              bonusTokenAmount: bonusTokens.toLocaleString(),
+                              totalTokenAmount: totalTokens.toLocaleString(),
+                              rate: "50,000",
+                            }),
+                          )
+                        }}
+                      />
 
                       <motion.p
                         className="text-xs sm:text-sm text-center text-gray-400"
