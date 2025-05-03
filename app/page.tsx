@@ -77,7 +77,7 @@ export default function Home() {
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="h-[46px] sm:h-[56px] flex">
                 <Link
-                  href="https://t.me/therealworldtoken"
+                  href="https://t.me/therealworldsol"
                   //onClick={() => scrollToSection("tokenomics")}
                   className="bg-transparent border border-[#f7d060] text-[#f7d060] font-semibold px-5 sm:px-8 flex items-center justify-center rounded-md hover:bg-[#f7d060]/10 transition-all duration-300 text-sm sm:text-base h-full"
                 >

@@ -259,7 +259,7 @@ export function Navbar() {
             <div className="mt-6">
               <div className="flex items-center justify-between mb-4">
                 <a
-                  href="https://t.me/therealworldtoken"
+                  href="https://t.me/therealworldsol"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center px-3 py-1.5 rounded-md bg-[#111] border border-[#f0b90b]/30 text-[#f0b90b] gap-1.5"
