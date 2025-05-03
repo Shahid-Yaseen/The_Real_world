@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Users, Globe, Zap, ArrowRight, Wallet, DollarSign, BarChart3, HelpCircle } from "lucide-react"
+import { useState } from "react"
 
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -21,6 +22,8 @@ export default function Home() {
       element.scrollIntoView({ behavior: "smooth" })
     }
   }
+
+  const [inputError, setInputError] = useState<string | null>(null)
 
   // Animation variants
   const containerVariants = {
@@ -541,7 +544,7 @@ export default function Home() {
                         </motion.div>
 
                         <motion.div
-                          className="dark-gradient-bg p-2 sm:p-3 md:p-4 rounded-md text-center min-w-[60px] sm:min-w-16 border border-[#f0b90b]/20"
+                          className="dark-gradient-bg p-2 sm:p-3 md:p-4 rounded-md text-center min-w-[60px] sm:min-w-16 border border-[#f0b9 কিন্তonb p-2 sm:p-3 md:p-4 rounded-md text-center min-w-[60px] sm:min-w-16 border border-[#f0b90b]/20"
                           whileHover={{ y: -3, boxShadow: "0 10px 25px -10px rgba(247, 208, 96, 0.4)" }}
                           transition={{ duration: 0.2 }}
                         >
@@ -605,7 +608,7 @@ export default function Home() {
                         transition={{ duration: 0.3, delay: 1.0 }}
                       >
                         <span className="text-sm sm:text-base text-gray-300">Min Purchase:</span>
-                        <span className="font-semibold gold-gradient-text text-sm sm:text-base">0.1 SOL</span>
+                        <span className="font-semibold gold-gradient-text text-sm sm:text-base">0.2 SOL</span>
                       </motion.div>
                       <motion.div
                         className="flex justify-between p-2 sm:p-3 bg-[#0a0a0a]/50 rounded-md"
@@ -635,8 +638,8 @@ export default function Home() {
                             type="text"
                             placeholder="0.0"
                             id="homepage-sol-amount"
-                            defaultValue="0.1"
-                            className="w-full bg-[#0A0A0A] border border-gray-800 rounded-md p-3 sm:p-4 pr-12 sm:pr-16 text-right focus:border-[#f0b90b] focus:outline-none focus:ring-1 focus:ring-[#f0b90b] transition-all duration-300 text-sm sm:text-base"
+                            defaultValue="0.2"
+                            className={`w-full bg-[#0A0A0A] border ${inputError ? "border-red-500" : "border-gray-800"} rounded-md p-3 sm:p-4 pr-12 sm:pr-16 text-right focus:border-[#f0b90b] focus:outline-none focus:ring-1 focus:ring-[#f0b90b] transition-all duration-300 text-sm sm:text-base`}
                             whileFocus={{ borderColor: "#f0b90b" }}
                             transition={{ duration: 0.2 }}
                             onChange={(e) => {
@@ -646,12 +649,16 @@ export default function Home() {
                                 const tokens = Number(solAmount) * 50000
                                 trwAmount.value = tokens.toLocaleString("en-US", { maximumFractionDigits: 0 })
                               }
+
+                              // Clear error when user types
+                              if (inputError) setInputError(null)
                             }}
                           />
                           <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-[#f0b90b] text-sm sm:text-base">
                             SOL
                           </div>
                         </div>
+                        {inputError && <p className="mt-1 text-red-500 text-xs sm:text-sm">{inputError}</p>}
                       </motion.div>
 
                       <motion.div
@@ -664,7 +671,7 @@ export default function Home() {
                           <input
                             type="text"
                             id="homepage-trw-amount"
-                            defaultValue="5,000"
+                            defaultValue="10,000"
                             readOnly
                             className="w-full bg-[#0A0A0A] border border-gray-800 rounded-md p-3 sm:p-4 pr-12 sm:pr-16 text-right text-sm sm:text-base"
                           />
@@ -677,8 +684,15 @@ export default function Home() {
                       <WalletConnectButton
                         className="w-full py-3 sm:py-4 text-center"
                         onClick={() => {
-                          const solAmount = document.getElementById("homepage-sol-amount")?.value || "0.1"
-                          const trwAmount = document.getElementById("homepage-trw-amount")?.value || "5,000"
+                          const solAmount = document.getElementById("homepage-sol-amount")?.value || "0.2"
+                          const trwAmount = document.getElementById("homepage-trw-amount")?.value || "10,000"
+
+                          // Validate minimum amount
+                          const solValue = Number.parseFloat(solAmount)
+                          if (isNaN(solValue) || solValue < 0.2) {
+                            setInputError("Minimum purchase is 0.2 SOL")
+                            return
+                          }
 
                           // Calculate token values
                           const baseTokens = Number(trwAmount.replace(/,/g, ""))
@@ -892,6 +906,9 @@ export default function Home() {
       </section>
 
       <Footer />
+      <div className="flex justify-center py-4">
+        <div className="text-xs sm:text-sm text-gray-400">© 2025 THE REAL WORLD. All rights reserved.</div>
+      </div>
     </main>
   )
 }

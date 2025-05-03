@@ -69,7 +69,7 @@ export function Roadmap() {
     <div className="max-w-3xl mx-auto">
       <RoadmapPhase
         title="Phase 1: Launch"
-        period="Q1 2023"
+        period="Q1 2025"
         items={[
           "Website launch and social media presence",
           "Smart contract development and audit",
@@ -81,7 +81,7 @@ export function Roadmap() {
 
       <RoadmapPhase
         title="Phase 2: Growth"
-        period="Q2 2023"
+        period="Q2 2025"
         items={[
           "DEX listing and liquidity provision",
           "Community expansion initiatives",
@@ -93,14 +93,14 @@ export function Roadmap() {
 
       <RoadmapPhase
         title="Phase 3: Expansion"
-        period="Q3-Q4 2023"
+        period="Q3-Q4 2025"
         items={["CEX listings", "Mobile app development", "Global marketing expansion", "Real World exclusive events"]}
         delay={0.6}
       />
 
       <RoadmapPhase
         title="Phase 4: Ecosystem"
-        period="2024"
+        period="2026"
         items={[
           "Launch of The Real World DeFi platform",
           "NFT collection release",

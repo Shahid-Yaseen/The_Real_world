@@ -83,7 +83,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-[#f0b90b]/10 mt-6 sm:mt-10 pt-6 sm:pt-10 flex flex-col md:flex-row justify-between items-center">
-          <div className="text-xs sm:text-sm text-gray-400">© 2023 THE REAL WORLD. All rights reserved.</div>
+          <div className="text-xs sm:text-sm text-gray-400">© 2025 THE REAL WORLD. All rights reserved.</div>
 
           <div className="flex space-x-4 sm:space-x-8 mt-4 sm:mt-6 md:mt-0">
             <Link href="#" className="text-xs sm:text-sm text-gray-400 hover:text-[#f7d060] transition-colors">

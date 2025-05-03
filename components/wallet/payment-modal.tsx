@@ -12,9 +12,22 @@ interface PaymentModalProps {
   onClose: () => void
   ethAmount: string
   tokenAmount: string
+  baseTokenAmount: string
+  bonusTokenAmount: string
+  totalTokenAmount: string
+  solAmount: string
 }
 
-export function PaymentModal({ isOpen, onClose, ethAmount, tokenAmount }: PaymentModalProps) {
+export function PaymentModal({
+  isOpen,
+  onClose,
+  ethAmount,
+  tokenAmount,
+  baseTokenAmount,
+  bonusTokenAmount,
+  totalTokenAmount,
+  solAmount,
+}: PaymentModalProps) {
   const [activeTab, setActiveTab] = useState<"wallet" | "qr">("wallet")
   const [showWaitingScreen, setShowWaitingScreen] = useState(false)
 

@@ -10,8 +10,9 @@ import Link from "next/link"
 
 export default function CheckoutPage() {
   const router = useRouter()
-  const [amount, setAmount] = useState("0.1")
-  const [tokenAmount, setTokenAmount] = useState("5000")
+  const [amount, setAmount] = useState("0.2")
+  const [tokenAmount, setTokenAmount] = useState("10000")
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     // Load payment details from sessionStorage if available
@@ -38,9 +39,19 @@ export default function CheckoutPage() {
     const value = e.target.value
     setAmount(value)
     setTokenAmount(calculateTokens(value))
+
+    // Clear error when user types
+    if (error) setError(null)
   }
 
   const handleProceedToPayment = () => {
+    // Validate minimum amount
+    const solValue = Number.parseFloat(amount)
+    if (isNaN(solValue) || solValue < 0.2) {
+      setError("Minimum purchase is 0.2 SOL")
+      return
+    }
+
     // Parse the token amount without commas for consistent calculations
     const baseTokens = Number(tokenAmount.replace(/,/g, ""))
     const bonusTokens = Math.floor(baseTokens * 0.1)
@@ -131,12 +142,13 @@ export default function CheckoutPage() {
                       type="text"
                       value={amount}
                       onChange={handleAmountChange}
-                      className="w-full bg-[#111] border border-[#f0b90b]/30 rounded-md p-2 sm:p-3 pr-12 sm:pr-16 text-right text-white focus:outline-none focus:ring-1 focus:ring-[#f0b90b] focus:border-[#f0b90b] text-sm sm:text-base"
+                      className={`w-full bg-[#111] border ${error ? "border-red-500" : "border-[#f0b90b]/30"} rounded-md p-2 sm:p-3 pr-12 sm:pr-16 text-right text-white focus:outline-none focus:ring-1 focus:ring-[#f0b90b] focus:border-[#f0b90b] text-sm sm:text-base`}
                     />
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#f0b90b] text-sm sm:text-base">
                       SOL
                     </div>
                   </div>
+                  {error && <p className="mt-1 text-red-500 text-xs sm:text-sm">{error}</p>}
                 </div>
 
                 <div className="text-xs sm:text-sm text-gray-400">Rate: 1 SOL = 50,000 $TRW</div>

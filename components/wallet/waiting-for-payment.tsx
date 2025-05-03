@@ -32,10 +32,10 @@ export function WaitingForPayment({
   const [timeRemaining, setTimeRemaining] = useState(3600) // 1 hour in seconds
   const [isProcessing, setIsProcessing] = useState(true)
   const [paymentData, setPaymentData] = useState({
-    solAmount: solAmount || ethAmount || "0.1",
-    baseTokenAmount: baseTokenAmount || "0",
-    bonusTokenAmount: bonusTokenAmount || "0",
-    totalTokenAmount: totalTokenAmount || tokenAmount || "0",
+    solAmount: solAmount || ethAmount || "0.2",
+    baseTokenAmount: baseTokenAmount || "10,000",
+    bonusTokenAmount: bonusTokenAmount || "1,000",
+    totalTokenAmount: totalTokenAmount || "11,000",
     walletAddress,
     orderId,
   })
@@ -49,7 +49,7 @@ export function WaitingForPayment({
         const totalAmount = baseAmount + bonusAmount
 
         setPaymentData({
-          solAmount: solAmount || ethAmount || "0.1",
+          solAmount: solAmount || ethAmount || "0.2",
           baseTokenAmount: baseAmount.toLocaleString(),
           bonusTokenAmount: bonusAmount.toLocaleString(),
           totalTokenAmount: totalAmount.toLocaleString(),

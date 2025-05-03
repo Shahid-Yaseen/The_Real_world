@@ -13,9 +13,10 @@ interface CheckoutModalProps {
 }
 
 export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
+  const [amount, setAmount] = useState("0.2")
+  const [tokenAmount, setTokenAmount] = useState("10000")
   const [showPaymentModal, setShowPaymentModal] = useState(false)
-  const [amount, setAmount] = useState("0.1")
-  const [tokenAmount, setTokenAmount] = useState("5000")
+  const [error, setError] = useState<string | null>(null)
 
   // Calculate token amount based on SOL input (1 SOL = 50,000 TRW)
   const calculateTokens = (solAmount: string) => {
@@ -28,9 +29,19 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     const value = e.target.value
     setAmount(value)
     setTokenAmount(calculateTokens(value))
+
+    // Clear error when user types
+    if (error) setError(null)
   }
 
   const handleProceedToPayment = () => {
+    // Validate minimum amount
+    const solValue = Number.parseFloat(amount)
+    if (isNaN(solValue) || solValue < 0.2) {
+      setError("Minimum purchase is 0.2 SOL")
+      return
+    }
+
     // Store payment details for the payment modal
     const baseTokens = Number(tokenAmount.replace(/,/g, ""))
     const bonusTokens = Math.floor(baseTokens * 0.1)
@@ -136,10 +147,11 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                             type="text"
                             value={amount}
                             onChange={handleAmountChange}
-                            className="w-full bg-[#111] border border-[#f0b90b]/30 rounded-md p-3 pr-16 text-right text-white focus:outline-none focus:ring-1 focus:ring-[#f0b90b] focus:border-[#f0b90b]"
+                            className={`w-full bg-[#111] border ${error ? "border-red-500" : "border-[#f0b90b]/30"} rounded-md p-3 pr-16 text-right text-white focus:outline-none focus:ring-1 focus:ring-[#f0b90b] focus:border-[#f0b90b]`}
                           />
                           <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#f0b90b]">SOL</div>
                         </div>
+                        {error && <p className="mt-1 text-red-500 text-xs">{error}</p>}
                       </div>
 
                       <div className="text-sm text-gray-400">Rate: 1 SOL = 50,000 $TRW</div>
