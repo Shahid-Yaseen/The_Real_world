@@ -31,10 +31,8 @@ export function TokenDistribution() {
   return (
     <div>
       <DistributionItem label="Presale" percentage={40} delay={0.2} />
-      <DistributionItem label="Liquidity" percentage={30} delay={0.3} />
-      <DistributionItem label="Development" percentage={15} delay={0.4} />
-      <DistributionItem label="Marketing" percentage={10} delay={0.5} />
-      <DistributionItem label="Team" percentage={5} delay={0.6} />
+      <DistributionItem label="Liquidity" percentage={40} delay={0.3} />
+      <DistributionItem label="For Matrix" percentage={20} delay={0.4} />
     </div>
   )
 }

@@ -23,7 +23,7 @@ export function WalletConnectButton({ className = "" }: WalletConnectButtonProps
       onClick={handleConnect}
     >
       <Wallet size={16} />
-      <span>Connect Wallet</span>
+      <span>Buy</span>
     </motion.button>
   )
 }

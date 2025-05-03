@@ -32,6 +32,31 @@ export function Footer() {
               whileTap={{ scale: 0.9 }}
               className="bg-[#111] p-2 sm:p-3 rounded-full"
             >
+              <Link
+                href="https://x.com/jointrw_?s=21"
+                className="text-[#f0b90b] hover:text-[#f7d060] transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-5 h-5 sm:w-6 sm:h-6"
+                >
+                  <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+                </svg>
+              </Link>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.2, rotate: 5 }}
+              whileTap={{ scale: 0.9 }}
+              className="bg-[#111] p-2 sm:p-3 rounded-full"
+            >
               <Link href="#" className="text-[#f0b90b] hover:text-[#f7d060] transition-colors">
                 <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
               </Link>

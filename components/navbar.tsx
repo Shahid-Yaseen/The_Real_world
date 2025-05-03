@@ -21,7 +21,7 @@ export function Navbar() {
       }
 
       // Determine active section
-      const sections = ["hero", "about", "tokenomics", "roadmap", "presale", "faq"]
+      const sections = ["hero", "about", "tokenomics", "roadmap", "presale", "howto", "faq"]
 
       for (const section of sections.reverse()) {
         const element = document.getElementById(section)
@@ -138,6 +138,22 @@ export function Navbar() {
               />
             )}
           </Link>
+          <Link
+            href="#howto"
+            onClick={() => scrollToSection("howto")}
+            className={`transition-colors duration-300 relative text-sm lg:text-base ${
+              activeSection === "howto" ? "text-[#f7d060]" : "text-white hover:text-[#f7d060]"
+            }`}
+          >
+            How to
+            {activeSection === "howto" && (
+              <motion.div
+                className="absolute -bottom-1 left-0 w-full h-0.5 gold-gradient-bg"
+                layoutId="activeSection"
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              />
+            )}
+          </Link>
         </nav>
 
         <div className="flex items-center space-x-4">
@@ -145,14 +161,14 @@ export function Navbar() {
             href="https://t.me/therealworldtoken"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-[#111] border border-[#f0b90b]/30 hover:bg-[#f0b90b]/10 transition-colors"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            className="hidden md:flex items-center justify-center px-4 py-2 rounded-md bg-[#111] border border-[#f0b90b]/30 hover:bg-[#f0b90b]/10 transition-colors text-[#f0b90b] gap-2"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             aria-label="Join our Telegram"
           >
             <svg
-              width="20"
-              height="20"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -168,6 +184,7 @@ export function Navbar() {
                 fill="currentColor"
               />
             </svg>
+            <span className="font-medium">Join</span>
           </motion.a>
           <div className="hidden md:block">
             <WalletConnectButton />
@@ -230,18 +247,27 @@ export function Navbar() {
             >
               Presale
             </Link>
+            <Link
+              href="#howto"
+              className={`block transition-colors duration-300 text-base ${
+                activeSection === "howto" ? "gold-gradient-text" : "text-white hover:text-[#f7d060]"
+              }`}
+              onClick={() => scrollToSection("howto")}
+            >
+              How to
+            </Link>
             <div className="mt-6">
               <div className="flex items-center justify-between mb-4">
                 <a
                   href="https://t.me/therealworldtoken"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-[#111] border border-[#f0b90b]/30 text-[#f0b90b]"
+                  className="flex items-center justify-center px-3 py-1.5 rounded-md bg-[#111] border border-[#f0b90b]/30 text-[#f0b90b] gap-1.5"
                   aria-label="Join our Telegram"
                 >
                   <svg
-                    width="20"
-                    height="20"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -257,6 +283,7 @@ export function Navbar() {
                       fill="currentColor"
                     />
                   </svg>
+                  <span className="font-medium">Join</span>
                 </a>
                 <WalletConnectButton />
               </div>

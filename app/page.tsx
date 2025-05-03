@@ -3,13 +3,14 @@
 import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Users, Globe, Zap } from "lucide-react"
+import { Users, Globe, Zap, ArrowRight, Wallet, DollarSign, BarChart3, HelpCircle } from "lucide-react"
 
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Faq } from "@/components/faq"
 import { Roadmap } from "@/components/roadmap"
 import { TokenDistribution } from "@/components/token-distribution"
+import { TokenDistributionChart } from "@/components/token-distribution-chart"
 import { FadeIn } from "@/components/animations/fade-in"
 import { WalletConnectButton } from "@/components/wallet/wallet-connect-button"
 
@@ -240,7 +241,7 @@ export default function Home() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 relative z-10">
           <FadeIn delay={0.2}>
             <motion.div
-              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b90b]/10 flex flex-col h-[320px] sm:h-[340px]"
+              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b90b]/10 flex flex-col h-full min-h-[340px]"
               whileHover={{ y: -8, boxShadow: "0 20px 40px -20px rgba(247, 208, 96, 0.3)" }}
               transition={{ duration: 0.3 }}
             >
@@ -257,7 +258,7 @@ export default function Home() {
 
           <FadeIn delay={0.3}>
             <motion.div
-              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b90b]/10 flex flex-col h-[320px] sm:h-[340px]"
+              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b90b]/10 flex flex-col h-full min-h-[340px]"
               whileHover={{ y: -8, boxShadow: "0 20px 40px -20px rgba(247, 208, 96, 0.3)" }}
               transition={{ duration: 0.3 }}
             >
@@ -274,7 +275,7 @@ export default function Home() {
 
           <FadeIn delay={0.4}>
             <motion.div
-              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b9কিন্ত]/10 flex flex-col h-[320px] sm:h-[340px]"
+              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b90b]/10 flex flex-col h-full min-h-[340px]"
               whileHover={{ y: -8, boxShadow: "0 20px 40px -20px rgba(247, 208, 96, 0.3)" }}
               transition={{ duration: 0.3 }}
             >
@@ -313,12 +314,17 @@ export default function Home() {
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8 relative z-10">
           <FadeIn delay={0.2} direction="right">
             <motion.div
-              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b90b]/10"
+              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b90b]/10 h-full min-h-[400px] sm:min-h-[450px] md:min-h-[500px] lg:min-h-[550px] overflow-auto"
               whileHover={{ boxShadow: "0 20px 40px -20px rgba(247, 208, 96, 0.3)" }}
               transition={{ duration: 0.3 }}
             >
               <h3 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 gold-gradient-text">Token Distribution</h3>
               <TokenDistribution />
+
+              <div className="mt-8">
+                <h4 className="text-base sm:text-lg font-semibold mb-4 text-white">Distribution Chart</h4>
+                <TokenDistributionChart />
+              </div>
             </motion.div>
           </FadeIn>
 
@@ -345,7 +351,39 @@ export default function Home() {
                   </div>
                   <div className="flex justify-between p-2 sm:p-3 bg-[#0a0a0a]/50 rounded-md">
                     <span className="text-sm sm:text-base">Network:</span>
-                    <span className="font-semibold gold-gradient-text text-sm sm:text-base">Ethereum (ERC-20)</span>
+                    <span className="font-semibold gold-gradient-text text-sm sm:text-base">Solana (SPL)</span>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:justify-between p-2 sm:p-3 bg-[#0a0a0a]/50 rounded-md">
+                    <span className="text-sm sm:text-base mb-1 sm:mb-0">Token Address:</span>
+                    <div className="flex items-center">
+                      <span className="font-semibold gold-gradient-text text-xs sm:text-sm font-mono truncate max-w-[180px] sm:max-w-[220px]">
+                        8TwMkSAAnt2z5ry89JnNqYSQyrTK5YYtDBePDiutoZdc
+                      </span>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText("8TwMkSAAnt2z5ry89JnNqYSQyrTK5YYtDBePDiutoZdc")
+                          // You could add a toast notification here
+                        }}
+                        className="ml-2 p-1 bg-[#111] rounded-md hover:bg-[#222] transition-colors"
+                        aria-label="Copy address"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="text-[#f0b90b]"
+                        >
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -546,7 +584,7 @@ export default function Home() {
                       >
                         <span className="text-sm sm:text-base text-gray-300">Presale Price:</span>
                         <span className="font-semibold gold-gradient-text text-sm sm:text-base">
-                          1 ETH = 2,000,000 TRW
+                          1 SOL = 2,000,000 TRW
                         </span>
                       </motion.div>
                       <motion.div
@@ -557,7 +595,7 @@ export default function Home() {
                       >
                         <span className="text-sm sm:text-base text-gray-300">Listing Price:</span>
                         <span className="font-semibold gold-gradient-text text-sm sm:text-base">
-                          1 ETH = 1,500,000 TRW
+                          1 SOL = 1,500,000 TRW
                         </span>
                       </motion.div>
                       <motion.div
@@ -567,7 +605,7 @@ export default function Home() {
                         transition={{ duration: 0.3, delay: 1.0 }}
                       >
                         <span className="text-sm sm:text-base text-gray-300">Min Purchase:</span>
-                        <span className="font-semibold gold-gradient-text text-sm sm:text-base">0.1 ETH</span>
+                        <span className="font-semibold gold-gradient-text text-sm sm:text-base">0.1 SOL</span>
                       </motion.div>
                       <motion.div
                         className="flex justify-between p-2 sm:p-3 bg-[#0a0a0a]/50 rounded-md"
@@ -576,7 +614,7 @@ export default function Home() {
                         transition={{ duration: 0.3, delay: 1.1 }}
                       >
                         <span className="text-sm sm:text-base text-gray-300">Max Purchase:</span>
-                        <span className="font-semibold gold-gradient-text text-sm sm:text-base">10 ETH</span>
+                        <span className="font-semibold gold-gradient-text text-sm sm:text-base">10 SOL</span>
                       </motion.div>
                     </div>
                   </div>
@@ -591,7 +629,7 @@ export default function Home() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.6 }}
                       >
-                        <p className="mb-2 sm:mb-3 text-sm sm:text-base text-gray-300">Amount in ETH</p>
+                        <p className="mb-2 sm:mb-3 text-sm sm:text-base text-gray-300">Amount in SOL</p>
                         <div className="relative">
                           <motion.input
                             type="text"
@@ -601,7 +639,7 @@ export default function Home() {
                             transition={{ duration: 0.2 }}
                           />
                           <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-[#f0b90b] text-sm sm:text-base">
-                            ETH
+                            SOL
                           </div>
                         </div>
                       </motion.div>
@@ -642,6 +680,157 @@ export default function Home() {
             </motion.div>
           </div>
         </FadeIn>
+      </section>
+
+      {/* How to Section */}
+      <section
+        id="howto"
+        className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 lg:px-16 max-w-7xl mx-auto w-full relative"
+      >
+        {/* Background gradient element */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-3xl max-h-96 bg-[#f0b90b]/5 rounded-full filter blur-3xl"></div>
+
+        <FadeIn>
+          <div className="text-center mb-10 sm:mb-16 relative z-10">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 gold-gradient-text">HOW TO BUY</h2>
+            <p className="max-w-3xl mx-auto text-sm sm:text-base text-gray-300">
+              Follow these simple steps to purchase $TRW tokens during our presale.
+            </p>
+          </div>
+        </FadeIn>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 relative z-10">
+          <FadeIn delay={0.2}>
+            <motion.div
+              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b90b]/10 flex flex-col justify-between h-[350px] sm:h-[380px] md:h-[400px] lg:h-[420px] w-full"
+              whileHover={{ y: -8, boxShadow: "0 20px 40px -20px rgba(247, 208, 96, 0.3)" }}
+              transition={{ duration: 0.3 }}
+            >
+              <div>
+                <div className="animated-gradient-bg w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-lg shadow-[#f0b90b]/20">
+                  <Wallet className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
+                </div>
+                <div className="flex items-center mb-2">
+                  <div className="w-6 h-6 rounded-full bg-[#f0b90b]/20 text-[#f0b90b] flex items-center justify-center text-xs mr-2 flex-shrink-0">
+                    1
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold gold-gradient-text">Create a Wallet</h3>
+                </div>
+                <p className="text-sm sm:text-base text-gray-300">
+                  Download and set up a Solana-compatible wallet like Phantom, Solflare, or Sollet to store your $TRW
+                  tokens.
+                </p>
+              </div>
+              <div className="mt-auto pt-4">
+                <Link
+                  href="https://phantom.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#f0b90b] text-sm flex items-center hover:underline"
+                >
+                  Learn more <ArrowRight size={14} className="ml-1" />
+                </Link>
+              </div>
+            </motion.div>
+          </FadeIn>
+
+          <FadeIn delay={0.3}>
+            <motion.div
+              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b90b]/10 flex flex-col justify-between h-[350px] sm:h-[380px] md:h-[400px] lg:h-[420px] w-full"
+              whileHover={{ y: -8, boxShadow: "0 20px 40px -20px rgba(247, 208, 96, 0.3)" }}
+              transition={{ duration: 0.3 }}
+            >
+              <div>
+                <div className="animated-gradient-bg w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-lg shadow-[#f0b90b]/20">
+                  <DollarSign className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
+                </div>
+                <div className="flex items-center mb-2">
+                  <div className="w-6 h-6 rounded-full bg-[#f0b90b]/20 text-[#f0b90b] flex items-center justify-center text-xs mr-2 flex-shrink-0">
+                    2
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold gold-gradient-text">Buy SOL</h3>
+                </div>
+                <p className="text-sm sm:text-base text-gray-300">
+                  Purchase SOL from an exchange like Binance, Coinbase, or Kraken and transfer it to your wallet.
+                </p>
+              </div>
+              <div className="mt-auto pt-4">
+                <Link
+                  href="https://www.coinbase.com/how-to-buy/solana"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#f0b90b] text-sm flex items-center hover:underline"
+                >
+                  Learn more <ArrowRight size={14} className="ml-1" />
+                </Link>
+              </div>
+            </motion.div>
+          </FadeIn>
+
+          <FadeIn delay={0.4}>
+            <motion.div
+              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b90b]/10 flex flex-col justify-between h-[350px] sm:h-[380px] md:h-[400px] lg:h-[420px] w-full"
+              whileHover={{ y: -8, boxShadow: "0 20px 40px -20px rgba(247, 208, 96, 0.3)" }}
+              transition={{ duration: 0.3 }}
+            >
+              <div>
+                <div className="animated-gradient-bg w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-lg shadow-[#f0b90b]/20">
+                  <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
+                </div>
+                <div className="flex items-center mb-2">
+                  <div className="w-6 h-6 rounded-full bg-[#f0b90b]/20 text-[#f0b90b] flex items-center justify-center text-xs mr-2 flex-shrink-0">
+                    3
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold gold-gradient-text">Connect Wallet to Buy</h3>
+                </div>
+                <p className="text-sm sm:text-base text-gray-300">
+                  Visit our website and connect your Solana wallet by clicking the "Buy" button.
+                </p>
+              </div>
+              <div className="mt-auto pt-4">
+                <button
+                  onClick={() => scrollToSection("presale")}
+                  className="text-[#f0b90b] text-sm flex items-center hover:underline"
+                >
+                  Go to presale <ArrowRight size={14} className="ml-1" />
+                </button>
+              </div>
+            </motion.div>
+          </FadeIn>
+
+          <FadeIn delay={0.5}>
+            <motion.div
+              className="dark-gradient-bg p-5 sm:p-6 md:p-8 rounded-lg border border-[#f0b90b]/10 flex flex-col justify-between h-[350px] sm:h-[380px] md:h-[400px] lg:h-[420px] w-full"
+              whileHover={{ y: -8, boxShadow: "0 20px 40px -20px rgba(247, 208, 96, 0.3)" }}
+              transition={{ duration: 0.3 }}
+            >
+              <div>
+                <div className="animated-gradient-bg w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-lg shadow-[#f0b90b]/20">
+                  <HelpCircle className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
+                </div>
+                <div className="flex items-center mb-2">
+                  <div className="w-6 h-6 rounded-full bg-[#f0b90b]/20 text-[#f0b90b] flex items-center justify-center text-xs mr-2 flex-shrink-0">
+                    4
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold gold-gradient-text">Purchase TRW</h3>
+                </div>
+                <p className="text-sm sm:text-base text-gray-300">
+                  Enter the amount of SOL you want to spend, confirm the transaction in your wallet, and receive your
+                  $TRW tokens.
+                </p>
+              </div>
+              <div className="mt-auto pt-4">
+                <Link
+                  href="#faq"
+                  onClick={() => scrollToSection("faq")}
+                  className="text-[#f0b90b] text-sm flex items-center hover:underline"
+                >
+                  View FAQs <ArrowRight size={14} className="ml-1" />
+                </Link>
+              </div>
+            </motion.div>
+          </FadeIn>
+        </div>
       </section>
 
       {/* FAQ Section with enhanced styling */}
