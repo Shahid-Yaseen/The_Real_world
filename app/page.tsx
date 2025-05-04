@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { Users, Globe, Zap, ArrowRight, Wallet, DollarSign, BarChart3, HelpCircle } from "lucide-react"
 import { useState } from "react"
@@ -130,47 +131,90 @@ export default function Home() {
           <FadeIn delay={0.4} direction="left">
             <motion.div
               className="flex justify-center mt-8 md:mt-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
+              animate={{
+                y: [0, -10, 0],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Number.POSITIVE_INFINITY,
+                repeatType: "reverse",
+                ease: "easeInOut",
+              }}
             >
-              <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[450px] lg:h-[450px] rounded-full overflow-hidden">
-                {/* Gold border glow effect */}
-                <div className="absolute inset-0 rounded-full border-2 border-[#f0b90b]/30 shadow-[0_0_15px_rgba(247,208,96,0.5)]"></div>
+              <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80">
+                {/* Animated glow effect */}
+                <motion.div
+                  className="absolute inset-0 rounded-full opacity-60"
+                  style={{
+                    background: "radial-gradient(circle, rgba(247,208,96,0.6) 0%, rgba(247,208,96,0) 70%)",
+                  }}
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.6, 0.8, 0.6],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Number.POSITIVE_INFINITY,
+                    repeatType: "reverse",
+                  }}
+                ></motion.div>
 
-                {/* Video container with position adjustment to hide bottom white part */}
-                <div className="absolute inset-0 overflow-hidden rounded-full">
-                  {/* Video element with position adjustment */}
-                  <video
-                    src="/videos/hero-video.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="absolute w-full h-[110%] object-cover rounded-full"
-                    style={{ objectPosition: "center 40%" }}
-                    aria-hidden="true"
-                  />
-                </div>
-
-                {/* Overlay to enhance video visibility */}
-                <div className="absolute inset-0 bg-black/10 rounded-full"></div>
-
-                {/* Gold radial gradient overlay */}
-                <div
+                {/* Rotating border effect */}
+                <motion.div
                   className="absolute inset-0 rounded-full"
                   style={{
-                    background: "radial-gradient(circle, rgba(247,208,96,0.2) 0%, rgba(0,0,0,0) 70%)",
+                    border: "2px solid rgba(247,208,96,0.3)",
+                    boxShadow: "0 0 15px rgba(247,208,96,0.5)",
                   }}
-                ></div>
+                  animate={{
+                    rotate: 360,
+                  }}
+                  transition={{
+                    duration: 20,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: "linear",
+                  }}
+                ></motion.div>
 
-                {/* Bottom shadow to hide any remaining white edge */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-[15%] rounded-b-full"
-                  style={{
-                    background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)",
+                {/* Logo image with animation */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  animate={{
+                    scale: [1, 1.03, 1],
                   }}
-                ></div>
+                  transition={{
+                    duration: 3,
+                    repeat: Number.POSITIVE_INFINITY,
+                    repeatType: "reverse",
+                  }}
+                >
+                  <div className="relative w-full h-full">
+                    <Image
+                      src="/images/trw-logo.png"
+                      alt="THE REAL WORLD"
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      priority
+                    />
+                  </div>
+                </motion.div>
+
+                {/* Particle effect overlay */}
+                <motion.div
+                  className="absolute inset-0 rounded-full overflow-hidden"
+                  style={{
+                    background: "radial-gradient(circle, transparent 50%, rgba(0,0,0,0.3) 100%)",
+                  }}
+                  animate={{
+                    opacity: [0.7, 0.9, 0.7],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Number.POSITIVE_INFINITY,
+                    repeatType: "reverse",
+                  }}
+                ></motion.div>
               </div>
             </motion.div>
           </FadeIn>
@@ -500,7 +544,7 @@ export default function Home() {
                         </motion.div>
 
                         <motion.div
-                          className="dark-gradient-bg p-2 sm:p-3 md:p-4 rounded-md text-center min-w-[60px] sm:min-w-16 border border-[#f0b90b]/20"
+                          className="dark-gradient-bg p-2 sm:p-3 md:p-4 rounded-md text-center min-w-[60px] sm:min-w-16 border border-[#f0b9 কিন্তonb p-2 sm:p-3 md:p-4 rounded-md text-center min-w-[60px] sm:min-w-16 border border-[#f0b90b]/20"
                           whileHover={{ y: -3, boxShadow: "0 10px 25px -10px rgba(247, 208, 96, 0.4)" }}
                           transition={{ duration: 0.2 }}
                         >

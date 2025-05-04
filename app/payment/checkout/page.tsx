@@ -180,6 +180,26 @@ export default function CheckoutPage() {
             </div>
           </div>
 
+          {/* Footer */}
+          <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-[#f0b90b]/20 md:col-span-2">
+            <div className="flex flex-col sm:flex-row justify-between items-center">
+              <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-0 text-center sm:text-left">
+                By proceeding, you agree to our{" "}
+                <a href="#" className="text-[#f0b90b] hover:underline">
+                  Terms & Conditions
+                </a>
+              </p>
+              <motion.button
+                onClick={handleProceedToPayment}
+                className="gold-gradient-bg text-black font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-md hover:shadow-lg hover:shadow-[#f0b90b]/20 transition-all duration-300 text-sm sm:text-base w-full sm:w-auto"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Proceed to Payment
+              </motion.button>
+            </div>
+          </div>
+
           {/* Right Column - Benefits */}
           <div className="space-y-4 sm:space-y-6">
             <div className="bg-[#0a0a0a] rounded-lg p-4 sm:p-6 border border-[#f0b90b]/10">
@@ -223,26 +243,6 @@ export default function CheckoutPage() {
               </div>
               <p className="text-gray-400 text-xs sm:text-sm">Price increases in next stage</p>
             </div>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-[#f0b90b]/20">
-          <div className="flex flex-col sm:flex-row justify-between items-center">
-            <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-0 text-center sm:text-left">
-              By proceeding, you agree to our{" "}
-              <a href="#" className="text-[#f0b90b] hover:underline">
-                Terms & Conditions
-              </a>
-            </p>
-            <motion.button
-              onClick={handleProceedToPayment}
-              className="gold-gradient-bg text-black font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-md hover:shadow-lg hover:shadow-[#f0b90b]/20 transition-all duration-300 text-sm sm:text-base w-full sm:w-auto"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Proceed to Payment
-            </motion.button>
           </div>
         </div>
       </div>

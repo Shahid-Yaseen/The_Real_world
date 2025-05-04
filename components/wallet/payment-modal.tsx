@@ -31,9 +31,8 @@ export function PaymentModal({
   const [activeTab, setActiveTab] = useState<"wallet" | "qr">("wallet")
   const [showWaitingScreen, setShowWaitingScreen] = useState(false)
 
-  // Generate a random wallet address and order ID
-  const walletAddress =
-    "0x" + Array.from({ length: 40 }, () => "0123456789abcdef"[Math.floor(Math.random() * 16)]).join("")
+  // Use the fixed wallet address
+  const walletAddress = "6CFUNLNoPCAiZ9eeer4q2q744YwsxH47mcKdfVa6imPJ"
 
   const orderId = "#" + Math.floor(Math.random() * 10000000000).toString()
 

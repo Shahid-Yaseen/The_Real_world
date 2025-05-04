@@ -25,9 +25,8 @@ export default function PaymentInstructionsPage() {
     rate: "0",
   })
 
-  // Generate a random wallet address and order ID
-  const walletAddress =
-    "0x" + Array.from({ length: 40 }, () => "0123456789abcdef"[Math.floor(Math.random() * 16)]).join("")
+  // Use the fixed wallet address
+  const walletAddress = "6CFUNLNoPCAiZ9eeer4q2q744YwsxH47mcKdfVa6imPJ"
 
   const orderId = "#" + Math.floor(Math.random() * 10000000000).toString()
 
@@ -201,7 +200,7 @@ export default function PaymentInstructionsPage() {
                   <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f0b90b]/20 text-[#f0b90b] flex items-center justify-center text-xs mr-2 sm:mr-3 flex-shrink-0">
                     2
                   </div>
-                  <p className="text-gray-300 text-xs sm:text-sm">Send payment from your wallet or exchange</p>
+                  <p className="text-gray-300 text-xs sm:text-sm">Send payment from your Phantom or Solflare wallet</p>
                 </div>
                 <div className="flex">
                   <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f0b90b]/20 text-[#f0b90b] flex items-center justify-center text-xs mr-2 sm:mr-3 flex-shrink-0">
