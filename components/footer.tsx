@@ -33,7 +33,7 @@ export function Footer() {
               className="bg-[#111] p-2 sm:p-3 rounded-full"
             >
               <Link
-                href="https://x.com/jointrw_?s=21"
+                href="https://x.com/trwcoinsol?s=21"
                 className="text-[#f0b90b] hover:text-[#f7d060] transition-colors"
               >
                 <svg
