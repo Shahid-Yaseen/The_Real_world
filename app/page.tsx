@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Users, Globe, Zap, ArrowRight, Wallet, DollarSign, BarChart3, HelpCircle } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -24,6 +24,59 @@ export default function Home() {
   }
 
   const [inputError, setInputError] = useState<string | null>(null)
+
+  // Countdown timer state
+  const [countdown, setCountdown] = useState({
+    days: 16,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  })
+
+  // Set end date to 16 days from now
+  useEffect(() => {
+    const now = new Date()
+    const endDate = new Date(now)
+    endDate.setDate(now.getDate() + 16)
+
+    const updateCountdown = () => {
+      const now = new Date()
+      const difference = endDate.getTime() - now.getTime()
+
+      if (difference <= 0) {
+        // Timer has ended
+        setCountdown({
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+        })
+        clearInterval(timer)
+        return
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24))
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+
+      setCountdown({
+        days,
+        hours,
+        minutes,
+        seconds,
+      })
+    }
+
+    // Initial update
+    updateCountdown()
+
+    // Update every second
+    const timer = setInterval(updateCountdown, 1000)
+
+    // Cleanup on unmount
+    return () => clearInterval(timer)
+  }, [])
 
   // Animation variants
   const containerVariants = {
@@ -99,28 +152,36 @@ export default function Home() {
               >
                 <motion.div className="gradient-border glow" variants={itemVariants}>
                   <div className="gradient-border-content p-2 sm:p-3 md:p-4 text-center min-w-12 sm:min-w-16">
-                    <div className="text-xl sm:text-2xl md:text-4xl font-bold gold-gradient-text">14</div>
+                    <div className="text-xl sm:text-2xl md:text-4xl font-bold gold-gradient-text">
+                      {countdown.days.toString().padStart(2, "0")}
+                    </div>
                     <div className="text-[10px] sm:text-xs uppercase text-gray-400">Days</div>
                   </div>
                 </motion.div>
 
                 <motion.div className="gradient-border glow" variants={itemVariants}>
                   <div className="gradient-border-content p-2 sm:p-3 md:p-4 text-center min-w-12 sm:min-w-16">
-                    <div className="text-xl sm:text-2xl md:text-4xl font-bold gold-gradient-text">00</div>
+                    <div className="text-xl sm:text-2xl md:text-4xl font-bold gold-gradient-text">
+                      {countdown.hours.toString().padStart(2, "0")}
+                    </div>
                     <div className="text-[10px] sm:text-xs uppercase text-gray-400">Hours</div>
                   </div>
                 </motion.div>
 
                 <motion.div className="gradient-border glow" variants={itemVariants}>
                   <div className="gradient-border-content p-2 sm:p-3 md:p-4 text-center min-w-12 sm:min-w-16">
-                    <div className="text-xl sm:text-2xl md:text-4xl font-bold gold-gradient-text">00</div>
+                    <div className="text-xl sm:text-2xl md:text-4xl font-bold gold-gradient-text">
+                      {countdown.minutes.toString().padStart(2, "0")}
+                    </div>
                     <div className="text-[10px] sm:text-xs uppercase text-gray-400">Minutes</div>
                   </div>
                 </motion.div>
 
                 <motion.div className="gradient-border glow" variants={itemVariants}>
                   <div className="gradient-border-content p-2 sm:p-3 md:p-4 text-center min-w-12 sm:min-w-16">
-                    <div className="text-xl sm:text-2xl md:text-4xl font-bold gold-gradient-text">00</div>
+                    <div className="text-xl sm:text-2xl md:text-4xl font-bold gold-gradient-text">
+                      {countdown.seconds.toString().padStart(2, "0")}
+                    </div>
                     <div className="text-[10px] sm:text-xs uppercase text-gray-400">Seconds</div>
                   </div>
                 </motion.div>
@@ -265,7 +326,7 @@ export default function Home() {
               whileHover={{ y: -8, boxShadow: "0 20px 40px -20px rgba(247, 208, 96, 0.3)" }}
               transition={{ duration: 0.3 }}
             >
-              <div className="animated-gradient-bg w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-lg shadow-[#f0b90b]/20">
+              <div className="animated-gradient-bg w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6 shadow-lg shadow-[#f0b9কিন্তonb]/20">
                 <Globe className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
               </div>
               <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 gold-gradient-text">Global Community</h3>
@@ -521,7 +582,9 @@ export default function Home() {
                           whileHover={{ y: -3, boxShadow: "0 10px 25px -10px rgba(247, 208, 96, 0.4)" }}
                           transition={{ duration: 0.2 }}
                         >
-                          <div className="text-lg sm:text-2xl md:text-4xl font-bold gold-gradient-text">14</div>
+                          <div className="text-lg sm:text-2xl md:text-4xl font-bold gold-gradient-text">
+                            {countdown.days.toString().padStart(2, "0")}
+                          </div>
                           <div className="text-[10px] sm:text-xs uppercase text-gray-400">Days</div>
                         </motion.div>
 
@@ -530,7 +593,9 @@ export default function Home() {
                           whileHover={{ y: -3, boxShadow: "0 10px 25px -10px rgba(247, 208, 96, 0.4)" }}
                           transition={{ duration: 0.2 }}
                         >
-                          <div className="text-lg sm:text-2xl md:text-4xl font-bold gold-gradient-text">00</div>
+                          <div className="text-lg sm:text-2xl md:text-4xl font-bold gold-gradient-text">
+                            {countdown.hours.toString().padStart(2, "0")}
+                          </div>
                           <div className="text-[10px] sm:text-xs uppercase text-gray-400">Hours</div>
                         </motion.div>
 
@@ -539,16 +604,20 @@ export default function Home() {
                           whileHover={{ y: -3, boxShadow: "0 10px 25px -10px rgba(247, 208, 96, 0.4)" }}
                           transition={{ duration: 0.2 }}
                         >
-                          <div className="text-lg sm:text-2xl md:text-4xl font-bold gold-gradient-text">00</div>
+                          <div className="text-lg sm:text-2xl md:text-4xl font-bold gold-gradient-text">
+                            {countdown.minutes.toString().padStart(2, "0")}
+                          </div>
                           <div className="text-[10px] sm:text-xs uppercase text-gray-400">Minutes</div>
                         </motion.div>
 
                         <motion.div
-                          className="dark-gradient-bg p-2 sm:p-3 md:p-4 rounded-md text-center min-w-[60px] sm:min-w-16 border border-[#f0b9 কিন্তonb p-2 sm:p-3 md:p-4 rounded-md text-center min-w-[60px] sm:min-w-16 border border-[#f0b90b]/20"
+                          className="dark-gradient-bg p-2 sm:p-3 md:p-4 rounded-md text-center min-w-[60px] sm:min-w-16 border border-[#f0b90b]/20"
                           whileHover={{ y: -3, boxShadow: "0 10px 25px -10px rgba(247, 208, 96, 0.4)" }}
                           transition={{ duration: 0.2 }}
                         >
-                          <div className="text-lg sm:text-2xl md:text-4xl font-bold gold-gradient-text">00</div>
+                          <div className="text-lg sm:text-2xl md:text-4xl font-bold gold-gradient-text">
+                            {countdown.seconds.toString().padStart(2, "0")}
+                          </div>
                           <div className="text-[10px] sm:text-xs uppercase text-gray-400">Seconds</div>
                         </motion.div>
                       </div>
